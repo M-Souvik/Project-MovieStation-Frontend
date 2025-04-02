@@ -26,16 +26,14 @@ const AllMovies = () => {
           delay: 10000,
         }),
       ]}
-
-    //   orientation='center'
       className="w-full">
       <CarouselContent className={'relative'} >
         {movies.map((movie, index) => (
           <CarouselItem key={index} className="flex justify-center items-center">
             <div className='p-1 w-full'>
-              <Card className={'h-[40rem] relative w-fit py-0 rounded-xl overflow-hidden'}>
+              <Card className={'h-[40rem] border-none relative w-fit py-0 rounded overflow-hidden'}>
                 <img src={movie.banner_poster} alt={movie.movie_name} className='object-cover'/>
-                <CardContent className="flex bg-black/40 absolute w-full h-full flex-col items-center justify-end gap-3 p-6">
+                <CardContent className="flex bg-gradient-to-t from-black/100 to-black/10 absolute w-full h-full flex-col items-center justify-end gap-3 p-6">
                   <h1 className='font-semibold text-3xl'>{movie.movie_name}</h1>
                   <Button className={'bg-red-500'}><Play/>  Play Now</Button>
                 </CardContent>
