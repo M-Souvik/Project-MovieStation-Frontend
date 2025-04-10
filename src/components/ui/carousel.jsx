@@ -160,7 +160,7 @@ function CarouselPrevious({
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}>
-      <ArrowLeft />
+      <ArrowLeft className="dark:text-white"/>
       <span className="sr-only">Previous slide</span>
     </Button>)
   );
@@ -185,7 +185,7 @@ function CarouselNext({
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}>
-      <ArrowRight />
+      <ArrowRight className="dark:text-white"/>
       <span className="sr-only">Next slide</span>
     </Button>)
   );

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
@@ -11,45 +11,30 @@ import { movies } from '@/data/getData'
 import Autoplay from "embla-carousel-autoplay"
 import { Button } from '@/components/ui/button'
 import { Play } from 'lucide-react'
+import BannerCard from '@/components/BannerCard'
+import CarouselSection from '@/components/sections/banner/Carousel'
+import GenreSection from '@/components/sections/genres/GenreSection'
+import RecommendationSection from '@/components/sections/recommendations/RecommendationSection'
 
 const AllMovies = () => {
   return (
-    <div className='bg-black w-full h-screen px-20 '>
-        <div className='text-white relative top-32 h-[60%]'>
-        <Carousel
-        opts={{
-          loop: true,
-          align: "center",
-      }}
-        plugins={[
-        Autoplay({
-          delay: 10000,
-        }),
-      ]}
-      className="w-full">
-      <CarouselContent className={'relative'} >
-        {movies.map((movie, index) => (
-          <CarouselItem key={index} className="flex justify-center items-center">
-            <div className='p-1 w-full'>
-              <Card className={'h-[40rem] border-none relative w-fit py-0 rounded overflow-hidden'}>
-                <img src={movie.banner_poster} alt={movie.movie_name} className='object-cover'/>
-                <CardContent className="flex bg-gradient-to-t from-black/100 to-black/10 absolute w-full h-full flex-col items-center justify-end gap-3 p-6">
-                  <h1 className='font-semibold text-3xl'>{movie.movie_name}</h1>
-                  <Button className={'bg-red-500'}><Play/>  Play Now</Button>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <div className='absolute left-20 right-20 bottom-10'>
+    <div className=' w-full h-full flex flex-col relative gap-20 px-20 z-40'>
+      <div className=''>
 
-      <CarouselPrevious className={'bg-black rounded border-none'}/>
-      <CarouselNext className={'bg-black rounded border-none'}/>
+      <CarouselSection/>
       </div>
-    </Carousel>
+      <div className='relative z-40'>
 
-        </div>
+      <GenreSection/>
+      </div>
+      <div className='relative z-40'>
+
+      <RecommendationSection/>
+      </div>
+
+
+
+        {/* </div> */}
     </div>
   )
 }
