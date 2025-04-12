@@ -10,12 +10,18 @@ import {
 import { movies } from '@/data/getData'
 import Autoplay from 'embla-carousel-autoplay'
 import BannerCard from '@/components/BannerCard'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchMoviesByGenres } from '@/features/movie/movieSlice'
 // import BannerCard from '@/components/BannerCard'
 
 const CarouselSection = () => {
     const [api, setApi] = useState();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+  const dispatch=useDispatch()
+  const userData=JSON.parse(localStorage.getItem('userData'))
+  const { loading, data: movies, error } = useSelector((state) => state.movies);
+
 
 
 
@@ -34,6 +40,10 @@ const CarouselSection = () => {
       api.off("select", onSelect);
     };
   }, [api]);
+
+  useEffect(() => {
+    dispatch(fetchMoviesByGenres(userData.user.preferences));
+  }, [dispatch]);
 
   // Function to go to a specific slide
   const goToSlide = (index) => {
@@ -54,7 +64,7 @@ const CarouselSection = () => {
       ]}
       className="w-full">
       <CarouselContent className={'relative'} >
-        {movies.map((movie, index) => (
+        {movies&&movies.slice(0,3).map((movie, index) => (
           <CarouselItem key={index} className="flex justify-center items-center">
             {/* <div className='p-1 w-full'>
               <Card className={'h-[40rem] border-none relative w-fit py-0 rounded overflow-hidden'}>

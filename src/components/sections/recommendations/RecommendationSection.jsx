@@ -12,7 +12,7 @@ import { ChevronRight } from 'lucide-react'
 import axios from 'axios'
 import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchMovies } from '@/features/movie/movieSlice'
+import { fetchMovies, fetchMoviesByGenres } from '@/features/movie/movieSlice'
 import { Skeleton } from '@/components/ui/skeleton'
 
 const RecommendationSection = () => {
@@ -21,6 +21,7 @@ const RecommendationSection = () => {
   const dispatch = useDispatch();
   const [api, setApi] = useState();
   const [current, setCurrent] = useState(0);
+  const userData=JSON.parse(localStorage.getItem('userData'))
   const [count, setCount] = useState(0);
 
   const { loading, data: movies, error } = useSelector((state) => state.movies);
@@ -53,7 +54,7 @@ const RecommendationSection = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchMovies());
+    dispatch(fetchMoviesByGenres(userData.user.preferences));
   }, [dispatch]);
 
   useEffect(() => {
