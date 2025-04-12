@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { Play } from 'lucide-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 
 const Home = () => {
-  const navigate=useNavigate()
+  const navigate=useNavigate();
+  
   return (
     <div className='w-full flex justify-center items-center  min-h-[43.5vw]'>
       <img src='/assets/login.png' alt='home background' className='absolute top-0 object-cover h-full w-full'/>

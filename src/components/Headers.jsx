@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { useNavigate } from 'react-router'
-import { LogIn, Search } from 'lucide-react'
+import { LogIn, LogOut, Search } from 'lucide-react'
 
 const Headers = () => {
   const pathname = window.location.pathname
   const [isHome, setisHome]=useState(false);
-  const  navigate=useNavigate()
+  const  navigate=useNavigate();
+  const userData=JSON.parse(localStorage.getItem('userData'))
   
   useEffect(()=>{
     if(pathname=='/'){
@@ -34,7 +35,15 @@ const Headers = () => {
             <Input onClick={()=>{navigate('/search/movies')}} readOnly className={'dark:border-gray-600 hidden sm:block dark:text-white w-40 dark:placeholder:text-gray-600'}placeholder={'Search movies...'}/>
 
             {/* <Button size={'icon'} className=' text-white font-semibold w-fit h-fit'><Search/></Button> */}
+            {userData?(
+              <>
+            <Button onClick={()=>{navigate('/'); localStorage.removeItem('userData')}} className='bg-red-500 text-white font-semibold w-fit h-fit'><LogOut/></Button>
+
+              </>
+            ):(<>
+            
             <Button onClick={()=>{navigate('/auth')}} className='bg-red-500 text-white font-semibold w-fit h-fit'><LogIn/></Button>
+            </>)}
             {/* <Button className='bg-red-500 text-white font-semibold w-fit h-fit'>Register</Button> */}
         </div>
 </nav>

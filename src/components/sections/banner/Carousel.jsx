@@ -11,7 +11,7 @@ import { movies } from '@/data/getData'
 import Autoplay from 'embla-carousel-autoplay'
 import BannerCard from '@/components/BannerCard'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchMoviesByGenres } from '@/features/movie/movieSlice'
+import { fetchMovies, fetchMoviesByGenres } from '@/features/movie/movieSlice'
 // import BannerCard from '@/components/BannerCard'
 
 const CarouselSection = () => {
@@ -42,7 +42,12 @@ const CarouselSection = () => {
   }, [api]);
 
   useEffect(() => {
-    dispatch(fetchMoviesByGenres(userData.user.preferences));
+    if(userData){
+
+      dispatch(fetchMoviesByGenres(userData.user.preferences));
+    }else{
+      dispatch(fetchMovies())
+    }
   }, [dispatch]);
 
   // Function to go to a specific slide

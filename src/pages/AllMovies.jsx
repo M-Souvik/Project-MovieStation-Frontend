@@ -15,8 +15,17 @@ import BannerCard from '@/components/BannerCard'
 import CarouselSection from '@/components/sections/banner/Carousel'
 import GenreSection from '@/components/sections/genres/GenreSection'
 import RecommendationSection from '@/components/sections/recommendations/RecommendationSection'
+import { useNavigate } from 'react-router'
 
 const AllMovies = () => {
+  // const  userData=JSON.parse(localStorage.getItem('userData'))
+  // const navigate=useNavigate()
+
+  // useEffect(()=>{
+  //   if(!userData){
+  //     navigate('/auth')
+  //   }
+  // },[userData])
   return (
     <div className=' w-full h-full flex flex-col relative gap-20 px-20 z-40'>
       <div className=''>

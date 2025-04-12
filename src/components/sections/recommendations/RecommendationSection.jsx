@@ -54,8 +54,13 @@ const RecommendationSection = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchMoviesByGenres(userData.user.preferences));
-  }, [dispatch]);
+    if(userData){
+
+      dispatch(fetchMoviesByGenres(userData.user.preferences));
+    }else{
+      dispatch(fetchMovies())
+    }
+  }, [dispatch, userData]);
 
   useEffect(() => {
     if (!api) return;
