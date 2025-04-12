@@ -60,7 +60,7 @@ const RecommendationSection = () => {
     }else{
       dispatch(fetchMovies())
     }
-  }, [dispatch, userData]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!api) return;
