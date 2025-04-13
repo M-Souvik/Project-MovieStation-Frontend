@@ -78,4 +78,5 @@ export const genresChoices = [
     { id: 'Horror', name: "Horror" },
     { id: 'Thriller', name: "Thriller" },
     { id: 'SciFi', name: "Sci-Fi" },
+    { id: 'Romance', name: "Romance" },
 ];

@@ -27,7 +27,7 @@ export const fetchMoviesByID = createAsyncThunk('moviesbyid', async (id) => {
 export const fetchMoviesByGenres = createAsyncThunk('search/genres', async (genre) => {
   const payload={
     genres:genre
-  }/1
+  }
   const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/recommend/genres`,payload
   
   );

@@ -94,10 +94,10 @@ export default function AuthForm() {
     };
 
     return (
-        <div className='container '>
-            <img src='/assets/login-back.jpg' className='absolute top-0 z-20 w-full h-full object-cover'/>
+        <div className='container overflow-hidden'>
+            <img src='/assets/login-back.jpg' className='absolute  top-0 z-20 w-full h-full object-cover'/>
             {showPreference ? (
-                <div className='w-full h-full bg-gradient-to-b from-black/80 to-black/60 absolute top-0 z-30 flex justify-center items-center'>
+                <div className='inset-0 bg-gradient-to-b from-black/80 to-black/60 absolute top-0 z-30 flex justify-center items-center'>
                     <Card className={'border-1 flex flex-col gap-2.5 border-gray-700 px-2 py-3 max-w-md bg-gray-950 text-white'}>
                         <CardTitle className={'font-normal px-3 pb-0 text-xl'}>Please Select Your Preferred Genres</CardTitle>
                         <CardContent className={'flex px-2 py-0 gap-2 flex-wrap'}>

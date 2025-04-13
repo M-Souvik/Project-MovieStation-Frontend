@@ -7,7 +7,7 @@ const Home = () => {
   const navigate=useNavigate();
   
   return (
-    <div className='w-full flex justify-center items-center  min-h-[43.5vw]'>
+    <div className='w-full flex justify-center items-center h-screen sm:min-h-[43.5vw]'>
       <img src='/assets/login.png' alt='home background' className='absolute top-0 object-cover h-full w-full'/>
        <div className='absolute top-[40%] flex flex-col gap-2 items-center justify-center'>
         <h1 className='text-white text-4xl text-center sm:text-6xl font-semibold'>The Best Streaming Experience</h1>
