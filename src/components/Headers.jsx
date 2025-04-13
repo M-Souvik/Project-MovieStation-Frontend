@@ -31,19 +31,19 @@ const Headers = () => {
       <div className='flex items-center'>
         <div>
 
-      <DrawerSheet className={'bg-black rounded-xl min-w-72 w-full left-2 right-2 max-w-96 border border-gray-400 top-2 text-white'} 
+      <DrawerSheet className={'bg-black rounded-xl min-w-72 w-full left-2 right-2  max-w-96 border border-gray-400 top-2 text-white'} 
       content={
         <div className='py-2 flex flex-col'>
         {routes.map((route, index) => (
           <>
-          <a key={index} href={route.path} className={` normal-case border-transparent hover:text-white transition-colors duration-300 transform hover:bg-gray-800 rounded px-6 py-3 ${route.path === pathname ? 'text-gray-800 dark:text-gray-200 bg-gray-800' : ''}`}>
+          <a key={index} href={route.path} className={` normal-case  border-transparent hover:text-white transition-colors duration-300 transform hover:bg-gray-800 rounded px-6 py-3 ${route.path === pathname ? 'text-gray-800 dark:text-gray-200 bg-gray-800' : ''}`}>
             {route.label}
           </a>
           </>
         ))}
         </div>
       }>
-        <Button size={'icon'}><Menu className='text-white'/></Button>
+        <Button size={'icon'} className={' md:hidden'}><Menu className='text-white'/></Button>
       </DrawerSheet>
         </div>
       <div className='flex items-center gap-2 cursor-pointer' onClick={()=>navigate('/')}>
