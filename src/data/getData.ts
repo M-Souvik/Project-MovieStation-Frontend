@@ -24,30 +24,37 @@ export const movies=[
 
 export const genres=[
     {
+        id: "Action",
         name:"Action",
         image:"action.png"
     },
     {
+        id: "Adventure",
         name:"Adventure",
         image:"adventure.png"
     },
     {
+        id: "Comedy",
         name:"Comedy",
         image:"comedy.png"
     },
     {
+        id: "Drama",
         name:"Drama",
         image:"Drama.png"
     },
     {
+        id: "Horror",
         name:"Horror",
         image:"horror.png"
     },
     {
+        id: "Thriller",
         name:"Thriller",
         image:"action.png"
     },
     {
+        id: "SciFi",
         name:"SciFi",
         image:"action.png"
     },

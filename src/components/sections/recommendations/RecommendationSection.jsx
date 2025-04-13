@@ -15,6 +15,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchMovies, fetchMoviesByGenres } from '@/features/movie/movieSlice'
 import { Skeleton } from '@/components/ui/skeleton'
 
+export function convertTime(time){
+    
+  const convertedTime=`${parseInt(time/120)}hr ${ (time/60-parseInt(time/60))!=0 ?`${parseInt((time/60-parseInt(time/60))*60)}min`:``}`;
+  return convertedTime;
+}
+
 const RecommendationSection = () => {
   // const  [movies, setMovies]=useState([]);
   const navigate=useNavigate();
@@ -24,7 +30,7 @@ const RecommendationSection = () => {
   const userData=JSON.parse(localStorage.getItem('userData'))
   const [count, setCount] = useState(0);
 
-  const { loading, data: movies, error } = useSelector((state) => state.movies);
+  const { loading, data: movies, error, hasFetched } = useSelector((state) => state.movies);
 
   console.log('movies', movies);
 
@@ -47,20 +53,18 @@ const RecommendationSection = () => {
 
 
 
-  const convertTime=(time)=>{
-    
-    const convertedTime=`${parseInt(time/120)}hr ${ (time/60-parseInt(time/60))!=0 ?`${parseInt((time/60-parseInt(time/60))*60)}min`:``}`;
-    return convertedTime;
-  }
+
 
   useEffect(() => {
+    if (!hasFetched) {
     if(userData){
 
       dispatch(fetchMoviesByGenres(userData.user.preferences));
     }else{
       dispatch(fetchMovies())
     }
-  }, [dispatch]);
+  }
+  }, [dispatch, hasFetched]);
 
   useEffect(() => {
     if (!api) return;
@@ -102,10 +106,16 @@ const section=()=>{
   </>
   ):(
     <>
-    <Carousel setApi={setApi} className="w-full ">
+    <Carousel
+    opts={{
+      align:'center',
+      loop:'true'
+      }} 
+    
+    setApi={setApi} className="w-full ">
     <CarouselContent className="-ml-1">
         {movies&&movies.map((genre, index) => (
-          <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/5">
+          <CarouselItem key={index} className="pl-1 basis-[90%] md:basis-1/2 lg:basis-1/5">
             <div className="p-1">
               <Card className={'border-white'}>
                 <CardContent className="flex flex-col items-center text-white justify-center p-2 py-0">
@@ -135,7 +145,7 @@ const section=()=>{
       </CarouselContent>
     <div className='absolute -top-5 right-12'>
 
-    <div className='absolute -top-5 right-12'>
+    <div className='absolute hidden sm:flex -top-5 right-12'>
 
       <CarouselPrevious className={'border-white stroke-white rounded '}/>
       <div className="flex items-center gap-1 justify-center">

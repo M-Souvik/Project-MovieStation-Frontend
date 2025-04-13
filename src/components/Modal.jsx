@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Dialog,
     DialogContent,
@@ -8,9 +8,29 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 
-const Modal = ({trigger, title, content, open, isOpen}) => {
+const Modal = ({trigger, title, content, open, isOpen, onClose}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  const handleOpenChange = (open) => {
+    setIsModalOpen(open);
+    
+    // If the modal is closing (changing from open to closed)
+    if (open === false) {
+      // Perform your desired action here
+     
+      console.log('Modal closed action triggered');
+      if(onClose){
+
+        onClose();
+      }
+    }
+  };
+  useEffect(()=>{
+    setIsModalOpen(open)
+  },[open])
   return (
-    <Dialog open={open} onOpenChange={isOpen}>
+    <Dialog open={isModalOpen} onOpenChange={handleOpenChange} >
         {trigger&&(
             <>
             <DialogTrigger>{trigger}</DialogTrigger>

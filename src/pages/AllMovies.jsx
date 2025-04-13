@@ -16,34 +16,36 @@ import CarouselSection from '@/components/sections/banner/Carousel'
 import GenreSection from '@/components/sections/genres/GenreSection'
 import RecommendationSection from '@/components/sections/recommendations/RecommendationSection'
 import { useNavigate } from 'react-router'
+import { useSelector } from 'react-redux'
 
 const AllMovies = () => {
-  // const  userData=JSON.parse(localStorage.getItem('userData'))
-  // const navigate=useNavigate()
+  const state = useSelector((state) => state.movies);
+  
+  const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(()=>{
-  //   if(!userData){
-  //     navigate('/auth')
-  //   }
-  // },[userData])
+  useEffect(() => {
+    setIsLoading(state.isLoading);
+  }, [isLoading, setIsLoading, state]);
+
+  if (isLoading) {
+    return (
+      <div className='h-screen w-full flex items-center justify-center relative'>
+        <img src='/assets/loader2.gif' className='w-48  sm:w-52 relative -top-20'/>
+      </div>
+    );
+  }
+
   return (
-    <div className=' w-full h-full flex flex-col relative gap-20 px-20 z-40'>
-      <div className=''>
-
-      <CarouselSection/>
+    <div className='w-full h-full flex flex-col relative gap-20 sm:px-20 px-1 z-40'>
+      <div>
+        <CarouselSection />
       </div>
       <div className='relative z-40'>
-
-      <GenreSection/>
+        <GenreSection />
       </div>
       <div className='relative z-40'>
-
-      <RecommendationSection/>
+        <RecommendationSection />
       </div>
-
-
-
-        {/* </div> */}
     </div>
   )
 }

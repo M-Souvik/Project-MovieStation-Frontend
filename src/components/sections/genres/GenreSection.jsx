@@ -9,8 +9,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { ChevronRight } from 'lucide-react'
+import { useNavigate } from 'react-router'
 
 const GenreSection = () => {
+  const navigate=useNavigate()
 
   const [api, setApi] = useState();
   const [current, setCurrent] = useState(0);
@@ -40,17 +42,22 @@ const GenreSection = () => {
 
     <div className='flex flex-col gap-2 relative w-full items-center'>
       <h1 className='text-3xl dark:text-white text-left w-full font-semibold'>Our Genres</h1>
-         <Carousel setApi={setApi} className="w-full ">
+         <Carousel 
+         opts={{
+          align:'center',
+          loop:'true'
+          }} 
+          setApi={setApi} className="w-full ">
       <CarouselContent className="-ml-1">
         {genres.map((genre, index) => (
-          <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/5">
+          <CarouselItem key={index} className="pl-1 basis-[90%] md:basis-1/2 lg:basis-1/5">
             <div className="p-1">
               <Card className={'border-white'}>
                 <CardContent className="flex flex-col items-center text-white justify-center px-4">
                   <img src={`/assets/${genre.image}`}/>
                   <div className='flex justify-between items-center w-full relative top-2'>
 
-                  <h1 className="text-xl font-semibold">{genre.name}</h1>
+                  <h1 className="text-xl font-semibold" onClick={()=>{navigate(`/movies/${genre.id}`)}}>{genre.name}</h1>
                   <div>
                     <ChevronRight/>
                   </div>
@@ -62,7 +69,7 @@ const GenreSection = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <div className='absolute -top-5 right-12'>
+      <div className='absolute hidden sm:flex -top-5 right-12'>
 
       <CarouselPrevious className={'border-white stroke-white rounded '}/>
       <div className="flex items-center gap-1 justify-center">

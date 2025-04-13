@@ -1,9 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 export const login = createAsyncThunk('login', async (payload) => {
+  try {
+    
     const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/login/`, payload);
+    if(response.status==200){
+      toast.success('Logged in successfully!')
+
+    }
     return response;
+  } catch (error) {
+    console.log(error)
+    toast.error(`${error.response.data.error}`)
+    
+  }
   });
 export const register = createAsyncThunk('register', async (payload) => {
     const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/register/`, payload);
@@ -23,7 +35,15 @@ export const postUserPreferences = createAsyncThunk('prefernces', async (payload
       data: null,
       error: null,
     },
-    // reducers: {},
+    reducers: {
+
+
+      clearData: (state) => {
+        state.isLoading = false;
+        state.data = null;
+        state.error = null;
+      },
+    },
   
     extraReducers: (builder) => {
         builder.addCase(login.pending, (state) => {
@@ -68,5 +88,5 @@ export const postUserPreferences = createAsyncThunk('prefernces', async (payload
         
     },
   });
-  
+  export const { clearData } = loginSlice.actions;
   export default loginSlice.reducer;

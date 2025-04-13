@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Eye, EyeClosed } from 'lucide-react';
 import { BorderBeam } from '@/components/ui/borderbeam';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, postUserPreferences, register } from '@/features/auth/authSlice';
+import { clearData, login, postUserPreferences, register } from '@/features/auth/authSlice';
 import { toast, Toaster } from 'sonner';
 import { useNavigate } from 'react-router';
 import { genresChoices } from '@/data/getData';
@@ -26,28 +26,35 @@ export default function AuthForm() {
 
     useEffect(() => {
         if (state.data) {
-            if (isLogin && state.data.status === 200) {
-                console.log('logging in');
-                toast.success('Logged in successfully!');
-                const userData={
-                    user:state.data.data.user,
-                    token:{
-                        access:state.data.data.access,
-                        refresh:state.data.data.refresh
+            if (isLogin) {
+                if(state.data.status === 200){
+
+                    console.log('logging in');
+                    toast.success('Logged in successfully!');
+                    const userData={
+                        user:state.data.data.user,
+                        token:{
+                            access:state.data.data.access,
+                            refresh:state.data.data.refresh
+                        }
                     }
+                    localStorage.setItem('userData', JSON.stringify(userData))
+                    navigate('/movies');
+                    setUsername(''),
+                    setPassword('')
+                    setEmail('');
+                    dispatch(clearData());
+                }else if(state.data.status!=200){
+                    console.log(state.error)
                 }
-                localStorage.setItem('userData', JSON.stringify(userData))
-                navigate('/movies');
-                setUsername(''),
-                setPassword('')
-                setEmail('')
             } else if (!isLogin && !showPreference&& state.data.status === 201) {
                 console.log('data:', state.data);
                 setShowPreferences(true);
-                setResponse(state.data.data.user)
-            } else if (showPreference  && state.data.status === 201) {
+                setResponse(state.data)
+            } else if (showPreference  && response.status === 201) {
                 console.log('redirecting');
                 navigate('/movies');
+                dispatch(clearData())
             }
         }
     }, [state.data, isLogin, navigate]);

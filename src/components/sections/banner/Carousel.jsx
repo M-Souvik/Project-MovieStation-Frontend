@@ -15,12 +15,12 @@ import { fetchMovies, fetchMoviesByGenres } from '@/features/movie/movieSlice'
 // import BannerCard from '@/components/BannerCard'
 
 const CarouselSection = () => {
-    const [api, setApi] = useState();
+  const [api, setApi] = useState();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
   const dispatch=useDispatch()
   const userData=JSON.parse(localStorage.getItem('userData'))
-  const { loading, data: movies, error } = useSelector((state) => state.movies);
+  const { loading, data: movies, error, hasFetched } = useSelector((state) => state.movies);
 
 
 
@@ -42,13 +42,16 @@ const CarouselSection = () => {
   }, [api]);
 
   useEffect(() => {
-    if(userData){
+    if(!hasFetched){
 
-      dispatch(fetchMoviesByGenres(userData.user.preferences));
-    }else{
-      dispatch(fetchMovies())
+      if(userData){
+  
+        dispatch(fetchMoviesByGenres(userData.user.preferences));
+      }else{
+        dispatch(fetchMovies())
+      }
     }
-  }, [dispatch]);
+  }, [dispatch, hasFetched]);
 
   // Function to go to a specific slide
   const goToSlide = (index) => {
