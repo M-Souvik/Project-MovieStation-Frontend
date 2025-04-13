@@ -58,6 +58,7 @@ const SearchMovies = () => {
     };
 
     useEffect(() => {
+        
         const query = new URLSearchParams(window.location.search).get('searchQuery');
         if (query) {
             setSearchQuery(query);
@@ -70,10 +71,10 @@ const SearchMovies = () => {
     // Calculate the current movies to display
     const indexOfLastMovie = currentPage * moviesPerPage;
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-    const currentMovies = state.data ? state.data.slice(indexOfFirstMovie, indexOfLastMovie) : [];
+    const currentMovies = state.data && Array.isArray(state.data) ? state.data.slice(indexOfFirstMovie, indexOfLastMovie) : [];
 
     // Calculate total pages
-    const totalPages = state.data ? Math.ceil(state.data.length / moviesPerPage) : 0;
+    const totalPages = state.data && Array.isArray(state.data) ? Math.ceil(state.data.length / moviesPerPage) : 0;
 
     return (
         <div className='min-h-screen px-2 pt-6 lg:pt-6 lg:px-10'>

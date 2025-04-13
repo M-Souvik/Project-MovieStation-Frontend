@@ -9,16 +9,16 @@ import DrawerSheet from './DrawerSheet'
 
 const Headers = () => {
   const pathname = window.location.pathname
-  const [isHome, setisHome] = useState(false);
+  const [isLoggedIn, setisLoggedIn] = useState(false);
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem('userData'))
   const dispatch = useDispatch()
   
-  useEffect(() => {
-    if (pathname === '/') {
-      setisHome(true)
-    }
-  }, [pathname])
+  // useEffect(() => {
+  //   if (userData) {
+  //     setisLoggedIn(true)
+  //   }
+  // }, [userData])
 
   const routes = [
     { path: "/", label: "Home" },

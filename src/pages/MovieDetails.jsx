@@ -67,8 +67,8 @@ const MovieDetails = () => {
                     </div>
                 )}
             </div>
-            <div className="flex w-full mt-5 mb-20">
-                <div className='w-5/6 flex gap-2 flex-col'>
+            <div className="flex flex-col gap-3 sm:gap-0 sm:flex-row w-full mt-5 mb-20">
+                <div className='w-full sm:w-5/6 flex gap-2 flex-col'>
                     <div className="bg-gray-900 p-5 rounded-lg">
                         <h2 className="text-white text-lg pb-3">Description</h2>
                         <p className="text-gray-300 text-sm">{detail?.description}</p>
@@ -87,7 +87,7 @@ const MovieDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-1/6 flex flex-col justify-between bg-gray-900 p-5 rounded-lg ml-5">
+                <div className="w-full sm:w-1/6 flex flex-col justify-between bg-gray-900 p-5 rounded-lg sm:ml-5">
                     <p className="text-gray-300"><span className='flex gap-2'><Calendar /> Released Year</span>{detail?.release}</p>
                     <p className="text-gray-300 mt-2"><span>Genres</span><br />
                         <div className='flex flex-wrap gap-2 mt-2'>
