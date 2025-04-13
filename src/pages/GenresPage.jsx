@@ -42,9 +42,9 @@ const GenresPage = () => {
     }
 
     return (
-        <div className='h-screen w-full flex flex-col items-center justify-start bg-black px-5 pb-20'>
+        <div className='h-full sm:h-screen w-full flex flex-col items-center justify-start bg-black px-2 sm:px-5 pb-20'>
             <h1 className='text-white text-3xl mb-5'>Movies in {genre.join(', ')}</h1>
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4'>
+            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-4'>
                 {movies && movies.map((movie) => (
                     <MoviesCard genre={movie} key={movie.movie_id}/>
                 ))}
