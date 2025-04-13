@@ -7,8 +7,16 @@ export const login = createAsyncThunk('login', async (payload) => {
     
     const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/login/`, payload);
     if(response.status==200){
+      console.log('login',response);
       toast.success('Logged in successfully!')
-
+      const userData={
+        user:response.data.user,
+        token:{
+            access:response.data.access,
+            refresh:response.data.refresh
+        }
+    }
+      localStorage.setItem('userData',JSON.stringify(userData))
     }
     return response;
   } catch (error) {
@@ -18,14 +26,35 @@ export const login = createAsyncThunk('login', async (payload) => {
   }
   });
 export const register = createAsyncThunk('register', async (payload) => {
+  try {
+    
     const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/register/`, payload);
     console.log(response);
+    if(response.status==200){
+      toast.success('Registration successful!')
+
+    }
     return response;
+  } catch (error) {
+    console.log(error)
+    toast.error(`${error.response.data.error}`)
+  }
   });
 export const postUserPreferences = createAsyncThunk('prefernces', async (payload) => {
+  try {
+    
     const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/preference/`, payload);
     console.log(response);
+    if(response.status==200){
+      toast.success('Registration completed successfully!')
+
+    }
     return response;
+  } catch (error) {
+    console.log(error)
+    toast.error(`${error.response.data.error}`)
+    
+  }
   });
 
   const loginSlice = createSlice({

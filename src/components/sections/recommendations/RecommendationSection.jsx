@@ -58,7 +58,7 @@ const RecommendationSection = () => {
   useEffect(() => {
     if (!hasFetched) {
     if(userData){
-
+      console.log(userData.user.preferences);
       dispatch(fetchMoviesByGenres(userData.user.preferences));
     }else{
       dispatch(fetchMovies())

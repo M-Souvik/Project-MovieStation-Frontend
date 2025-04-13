@@ -31,14 +31,6 @@ export default function AuthForm() {
 
                     console.log('logging in');
                     toast.success('Logged in successfully!');
-                    const userData={
-                        user:state.data.data.user,
-                        token:{
-                            access:state.data.data.access,
-                            refresh:state.data.data.refresh
-                        }
-                    }
-                    localStorage.setItem('userData', JSON.stringify(userData))
                     navigate('/movies');
                     setUsername(''),
                     setPassword('')
@@ -54,6 +46,12 @@ export default function AuthForm() {
             } else if (showPreference  && response.status === 201) {
                 console.log('redirecting');
                 navigate('/movies');
+                const payload = {
+                    email: email,
+                    password: password
+                };
+                dispatch(login(payload));
+
                 dispatch(clearData())
             }
         }
@@ -88,7 +86,7 @@ export default function AuthForm() {
 
     const onClick = () => {
         const payload = {
-            user_id: response.id,
+            user_id: state.data.data.user.id,
             preference: selectedGenreIds
         };
 
@@ -163,12 +161,12 @@ export default function AuthForm() {
                                         />
                                         <div className='flex justify-between border rounded px-3'>
                                             <input 
-                                                type='password' 
-                                                placeholder='********' 
+                                                type={showPassword?'text':'password'}
+                                                placeholder='Password' 
                                                 value={password} 
                                                 onChange={(e) => setPassword(e.target.value)} 
                                             />
-                                            <Button size={'icon'}><Eye/></Button>
+                                            <Button size={'icon'} type="button" onClick={()=>setShowPassword(!showPassword)}>{showPassword?<EyeClosed/>:<Eye/>}</Button>
                                         </div>
                                         <Button type='submit' className='bg-red-600 mt-4'>Sign Up</Button>
                                     </div>
