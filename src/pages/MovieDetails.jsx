@@ -1,34 +1,52 @@
 import Modal from '@/components/Modal';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { fetchMoviesByID } from '@/features/movie/movieSlice';
+import axios from 'axios';
 import { Calendar, Play } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 
 const MovieDetails = () => {
     const params = useParams();
     const [isPlaying, setIsPlaying] = useState(false);
-    const [authModal, setAuthModal]=useState(false)
+    const [authModal, setAuthModal] = useState(false);
+    const [detail, setDetail] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const userData = JSON.parse(localStorage.getItem('userData'));
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
-    const { isLoading, data: detail , hasFetched, error} = useSelector((state) => state.movies);
-
-    useEffect(() => {
-        if (Array.isArray(detail)) {
-            dispatch(fetchMoviesByID(params.id));
+    const fetchMovie = async () => {
+        try {
+            setIsLoading(true);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/movie/${params.id}`,{
+                headers:{
+                    'Authorization':`Bearer ${userData.token.access}`
+                  }
+            });
+            setDetail(response.data.movie);
+            setIsLoading(false);
+        } catch (err) {
+            setError('Failed to fetch movie details.');
+            setIsLoading(false);
         }
+    };
+    useEffect(() => {
+
         if (!userData) {
             setAuthModal(true);
         }
-    }, [dispatch, params, detail, userData, navigate, hasFetched]);
+    }, [userData]);
+
+
+    useEffect(() => {
+    fetchMovie();
+    }, []);
 
     const originalLink = detail?.movie_link;
     const previewLink = originalLink?.replace(/\/view.*$/, '/preview');
-    // console.log(isLoading, detail);
+
     if (isLoading) {
         return (
             <div className='h-screen w-full flex items-center justify-center relative'>
@@ -37,8 +55,16 @@ const MovieDetails = () => {
         );
     }
 
+    if (error) {
+        return (
+            <div className='h-screen w-full flex items-center justify-center text-white'>
+                <p>{error}</p>
+            </div>
+        );
+    }
+
     return (
-        <div className='h-full w-full flex flex-col items-center justify-start bg-black px-5 pb-20'>
+        <div className='h-full w-full flex flex-col items-center justify-start bg-black px-5 lg:px-20 pb-20'>
             <div className={`relative w-full h-[35rem]`}>
                 {isPlaying ? (
                     <iframe 
@@ -67,6 +93,7 @@ const MovieDetails = () => {
                     </div>
                 )}
             </div>
+
             <div className="flex flex-col gap-3 sm:gap-0 sm:flex-row w-full mt-5 mb-20">
                 <div className='w-full sm:w-5/6 flex gap-2 flex-col'>
                     <div className="bg-gray-900 p-5 rounded-lg">
@@ -87,6 +114,7 @@ const MovieDetails = () => {
                         </div>
                     </div>
                 </div>
+
                 <div className="w-full sm:w-1/6 flex flex-col justify-between bg-gray-900 p-5 rounded-lg sm:ml-5">
                     <p className="text-gray-300"><span className='flex gap-2'><Calendar /> Released Year</span>{detail?.release}</p>
                     <p className="text-gray-300 mt-2"><span>Genres</span><br />
@@ -98,25 +126,22 @@ const MovieDetails = () => {
                     </p>
                     <p className="text-gray-300 mt-2"><strong>Director</strong><br /> {detail?.director}</p>
                 </div>
+
                 <Modal
-                title={'Warning'}
-                content={
-                <div className='flex flex-col items-center gap-2 justify-center'>
-                <h1>Please Login to view</h1>
-                <div>
-
-                    <Button className={'bg-red-500 text-white'}>Login</Button>
-                </div>
-
-                </div>
-                }
-                open={authModal}
-                isOpen={setAuthModal}
-                onClose={()=>{
-                    navigate('/auth')
-                }}
-                
-                
+                    title={'Warning'}
+                    content={
+                        <div className='flex flex-col items-center gap-2 justify-center'>
+                            <h1>Please Login to view</h1>
+                            <div>
+                                <Button className={'bg-red-500 text-white'}>Login</Button>
+                            </div>
+                        </div>
+                    }
+                    open={authModal}
+                    isOpen={setAuthModal}
+                    onClose={() => {
+                        navigate('/auth');
+                    }}
                 />
             </div>
         </div>
