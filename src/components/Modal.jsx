@@ -29,8 +29,10 @@ const Modal = ({trigger, title, content, open, isOpen, onClose}) => {
   useEffect(()=>{
     setIsModalOpen(open)
   },[open])
+
+  console.log('open',open);
   return (
-    <Dialog open={isModalOpen} onOpenChange={handleOpenChange} >
+    <Dialog open={open} onOpenChange={isOpen} >
         {trigger&&(
             <>
             <DialogTrigger>{trigger}</DialogTrigger>

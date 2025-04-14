@@ -1,3 +1,4 @@
+// import Modal from '@/components/Modal';
 import Modal from '@/components/Modal';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,15 @@ import axios from 'axios';
 import { Calendar, Play } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { toast, Toaster } from 'sonner';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
 
 const MovieDetails = () => {
     const params = useParams();
@@ -18,23 +28,36 @@ const MovieDetails = () => {
     const navigate = useNavigate();
 
     const fetchMovie = async () => {
+        if (userData==null) {
+            console.log('opening modal');
+            setAuthModal(true);
+            return;
+        }
         try {
-            setIsLoading(true);
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/movie/${params.id}`,{
-                headers:{
-                    'Authorization':`Bearer ${userData.token.access}`
-                  }
-            });
-            setDetail(response.data.movie);
-            setIsLoading(false);
+            // if(userData){
+
+                setIsLoading(true);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/movie/${params.id}`,{
+                    headers:{
+                        'Authorization':`Bearer ${userData.token.access}`
+                      }
+                });
+                
+                setDetail(response.data.movie);
+                setIsLoading(false);
         } catch (err) {
+            console.log(err);
+            if(err.status==401){
+                setAuthModal(true)
+            }
+            toast.error(err)
             setError('Failed to fetch movie details.');
             setIsLoading(false);
         }
     };
     useEffect(() => {
-
-        if (!userData) {
+        console.log(userData);
+        if (userData==null) {
             setAuthModal(true);
         }
     }, [userData]);
@@ -46,7 +69,7 @@ const MovieDetails = () => {
 
     const originalLink = detail?.movie_link;
     const previewLink = originalLink?.replace(/\/view.*$/, '/preview');
-
+    console.log(authModal);
     if (isLoading) {
         return (
             <div className='h-screen w-full flex items-center justify-center relative'>
@@ -127,7 +150,8 @@ const MovieDetails = () => {
                     <p className="text-gray-300 mt-2"><strong>Director</strong><br /> {detail?.director}</p>
                 </div>
 
-                <Modal
+            </div>
+                {/* <Modal
                     title={'Warning'}
                     content={
                         <div className='flex flex-col items-center gap-2 justify-center'>
@@ -142,8 +166,21 @@ const MovieDetails = () => {
                     onClose={() => {
                         navigate('/auth');
                     }}
-                />
-            </div>
+                /> */}
+                <Dialog open={authModal} onOpenChange={setAuthModal} >
+                    <DialogContent className={'dark:bg-gray-900 border-none bg-white dark:text-white'}>
+                        <DialogHeader>
+                        <DialogTitle className={'text-center'}>'Warning'</DialogTitle>
+                        </DialogHeader>
+                        <div className='flex flex-col items-center gap-2 justify-center'>
+                                                <h1>Please Login to view</h1>
+                                                <div>
+                                                    <Button className={'bg-red-500 text-white'}>Login</Button>
+                                                </div>
+                                            </div>
+                    </DialogContent>
+                    </Dialog>
+            <Toaster position='bottom-right'/>
         </div>
     );
 };
